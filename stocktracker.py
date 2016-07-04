@@ -1,5 +1,7 @@
-import requests
+from urllib.request import urlopen
+#import requests
 import smtplib
+
 
 
 def email(msg): #Send an email with the string payload 'msg'
@@ -31,27 +33,31 @@ def email(msg): #Send an email with the string payload 'msg'
 	server.quit()
 
 
+#get the data from yahoo stock api (hsbc, vw, ftse, euro) and convert to a string
+r = str(urlopen('http://finance.yahoo.com/d/quotes.csv?s=HSBA.L+VOW.DE+^FTSE+EURGBP=X&f=nghbp2').read())
 
-#get the data from yahoo stock api
-r = requests.get('http://finance.yahoo.com/d/quotes.csv?s=HSBA.L+VOW.DE&f=nghbp2')
+#parse the data into the list stockData:
 
-
-
-#parse the data into a list stockData
 stockData=[]
 datum=''
 
-for i in r.text:
+for i in r:
 	datum = datum+i
 	if i=="\"" or i==",":
 		stockData.append(datum[:-1])
 		datum=''
 
+#print everything in the list
+print ('stockData = ',stockData)
 
 #contruct the payload
-message = "HSBC " + stockData[5] + "\n" + "VW " + stockData[13]
+message = stockData[1] + stockData[5] + "\n" + \
+          stockData[9] + stockData[13] + "\n" + \
+          stockData[17] + stockData[21] + "\n" + \
+          stockData[25] + stockData[29]
 
-print(message)
+print("Payload :\n", message)
 
-email(message)
+
+#email(message)
 
