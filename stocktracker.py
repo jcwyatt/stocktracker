@@ -33,10 +33,16 @@ def email(msg): #Send an email with the string payload 'msg'
 	server.quit()
 
 
+
 #get the data from yahoo stock api (hsbc, vw, ftse, euro) and convert to a string
+#n = name |g = day's low | h = day's high | b = bid | p2 = day's change %
+
 r = str(urlopen('http://finance.yahoo.com/d/quotes.csv?s=HSBA.L+VOW.DE+^FTSE+EURGBP=X&f=nghbp2').read())
 
-#parse the data into the list stockData:
+#print ('Response from URLLIB: \n',r)
+#print('\nEnd of URLIB response')
+
+#parse the data into the list stockData
 
 stockData=[]
 datum=''
@@ -53,7 +59,7 @@ print ('stockData = ',stockData)
 #contruct the payload
 message = stockData[1] + stockData[5] + "\n" + \
           stockData[9] + stockData[13] + "\n" + \
-          stockData[17] + stockData[21] + "\n" + \
+          stockData[17] + stockData[] + "\n" + \
           stockData[25] + stockData[29]
 
 print("Payload :\n", message)
